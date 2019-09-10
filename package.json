@@ -2,7 +2,9 @@
   "name": "dpx",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://github.com/dooglz/dpx",
   "dependencies": {
+    "gh-pages": "^2.1.1",
     "react": "^16.9.0",
     "react-dnd": "^9.3.4",
     "react-dnd-html5-backend": "^9.3.4",
@@ -10,6 +12,8 @@
     "react-scripts": "3.1.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
