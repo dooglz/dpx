@@ -3,7 +3,6 @@ import React from 'react'
 
 class Dropdown extends React.Component {
     constructor(props) {
-        console.log(props)
         super(props);
         this.state = { value: 'coconut' };
         this.handleChange = this.handleChange.bind(this);
@@ -12,12 +11,18 @@ class Dropdown extends React.Component {
             props.options = [];
             this.optionElements = [(<option>DropDown with no Options!</option>)];
         } else {
-            this.optionElements = props.options.map((V,I) => (<option value={V[0]} key={I}>{V[1]}</option>))
+            this.optionElements = props.options.map((V, I) => (<option value={V[0]} key={I}>{V[1]}</option>))
+        }
+        if (!props.changeCallback) {
+            this.changeCallback = () => { };
+        } else {
+            this.changeCallback = props.changeCallback;
         }
     }
 
     handleChange(event) {
         this.setState({ value: event.target.value });
+        this.changeCallback({ value: event.target.value })
     }
 
     handleSubmit(event) {
@@ -40,12 +45,18 @@ class Dropdown extends React.Component {
     }
 }
 
-
-const Options = () => {
-    return (
-        <div className="OptionsBar">
-            <Dropdown options={[[0,0],[1,1],[2,2]]}/>
-        </div>
-    )
+class Options extends React.Component {
+    constructor(props) {
+        super(props);
+        console.info(props);
+    }
+    render() {
+        let fcb = (v)=>this.props.setGlobalState("timeslices",v.value)
+        return (
+            <div className="OptionsBar">
+                <Dropdown options={[[12, "Hourly"], [24, "Half-hourly"], [48, "15 Mins"]]} changeCallback={fcb} />
+            </div>
+        )
+    }
 }
 export default Options

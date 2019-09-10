@@ -22,12 +22,34 @@
  height: 80vh;
  background: #61dafb;
  margin: auto;
+ min-height: 200px;
+ overflow-y:auto;
 }
 
 .DayChart {
   box-sizing: border-box;
   height: 100%;
   width: 20%;
-  border: 1px solid green;
+  border: 1px solid black;
   float: left;
+
 }
+
+.DayHeadder {
+  border-bottom: 1px solid black;
+  min-height: 30px;
+  height: 5%
+}
+
+.DayTimeSlots{
+  height: 95%
+}
+
+.TimeSlot{
+  box-sizing: border-box;
+  float: none;
+}
+
+.TimeSlot:nth-child(even) {background: rgb(255, 255, 255)}
+
+.TimeSlot:nth-child(odd) {background: rgb(216, 216, 216)}
