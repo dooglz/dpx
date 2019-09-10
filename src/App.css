@@ -18,7 +18,7 @@
 }
 
 .WeekBoard {
- width: 90%;
+ width: 98%;
  height: 80vh;
  background: #61dafb;
  margin: auto;
@@ -43,13 +43,40 @@
 
 .DayTimeSlots{
   height: 95%
+  
 }
 
 .TimeSlot{
   box-sizing: border-box;
   float: none;
+  border: 1px solid black;
+  display: flex;
 }
 
 .TimeSlot:nth-child(even) {background: rgb(255, 255, 255)}
 
 .TimeSlot:nth-child(odd) {background: rgb(216, 216, 216)}
+
+.TimeSlotLabel{
+  text-align: left;
+  position:absolute;
+}
+.Event{
+  height:90%;
+  width:95%;
+  vertical-align:top;
+  padding-top:10px;
+  margin: auto auto;
+  box-sizing: border-box;
+  float: none;
+
+  
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      padding: 5px 10px;
+      text-align: left;
+      box-shadow: 0 1px 3px rgba(106,115,125,0.3);
+      border: 1px #e1e4e8 solid!important;
+
+}

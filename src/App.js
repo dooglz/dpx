@@ -10,7 +10,7 @@ class App extends React.Component {
     super(props);
     //this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
     // this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
-    this.state = { timeslices: 12, days: 5 };
+    this.state = { timeslices: 8, days: 5 };
     this.setGlobalState = this.setGlobalState.bind(this);
   }
   setGlobalState(prop, val) {

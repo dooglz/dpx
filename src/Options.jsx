@@ -54,7 +54,7 @@ class Options extends React.Component {
         let fcb = (v)=>this.props.setGlobalState("timeslices",v.value)
         return (
             <div className="OptionsBar">
-                <Dropdown options={[[12, "Hourly"], [24, "Half-hourly"], [48, "15 Mins"]]} changeCallback={fcb} />
+                <Dropdown options={[[8, "Hourly"], [16, "Half-hourly"], [24, "15 Mins"]]} changeCallback={fcb} />
             </div>
         )
     }

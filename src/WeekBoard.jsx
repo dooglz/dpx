@@ -1,15 +1,14 @@
 import React from 'react'
 import DayChart from './DayChart'
-//import { observe } from './Game'
+import { DndProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+
 const containerStyle = {
     ///width: 500,
     //height: 500,
     // border: '1px solid gray',
     className: "WeekBoard"
 }
-/**
- * The Chessboard Tutorial Application
- */
 
 class WeekBoard extends React.Component {
     constructor(props) {
@@ -23,9 +22,11 @@ class WeekBoard extends React.Component {
             items.push(<DayChart dayindex={i} key={i} timeslices={this.props.timeslices} />)
         }
         return (
+            <DndProvider backend={HTML5Backend}>
             <div className="WeekBoard">
                 {items}
             </div>
+            </DndProvider>
         )
     }
 }
