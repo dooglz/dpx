@@ -21,9 +21,10 @@ class WeekBoard extends React.Component {
         for (let i = 0; i < this.props.days; i++) {
             items.push(<DayChart dayindex={i} key={i} timeslices={this.props.timeslices} />)
         }
+        const width=(this.props.small? "68%":"98%");
         return (
             <DndProvider backend={HTML5Backend}>
-            <div className="WeekBoard">
+            <div className="WeekBoard" style={{width:width}}>
                 {items}
             </div>
             </DndProvider>

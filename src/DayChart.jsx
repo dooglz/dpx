@@ -4,23 +4,8 @@ import { useDrop } from 'react-dnd'
 import { DropTarget } from 'react-dnd'
 
 //import TimeSlot from './WeekBoard';
-let Events = [
-  {
-    text: "work",
-    catagory: "work",
-    startTime: 0,
-    startDay: 0,
-    duration: 1
-  },
-  {
-    text: "Fart",
-    catagory: "fart",
-    startTime: 0,
-    startDay: 1,
-    duration: 1
-  }
-];
 
+let Events = [];
 function getEventAtThisTime(di, ti){
   return Events.find((v,i)=>v.startDay=== di && v.startTime=== ti );
 }

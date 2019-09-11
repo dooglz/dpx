@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  display: flex;
+    flex-wrap: wrap;
 }
 
 .App-header {
@@ -11,10 +13,22 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .App-link {
   color: #61dafb80;
+}
+
+.backlog {
+  float: left;
+  background-color: burlywood;
+  height: 80vh;
+  width: 30%;
+  margin: auto;
+  min-height: 200px;
+  overflow-y:auto;
 }
 
 .WeekBoard {
@@ -24,6 +38,7 @@
  margin: auto;
  min-height: 200px;
  overflow-y:auto;
+ float: right;
 }
 
 .DayChart {
@@ -32,7 +47,6 @@
   width: 20%;
   border: 1px solid black;
   float: left;
-
 }
 
 .DayHeadder {
@@ -79,4 +93,8 @@
       box-shadow: 0 1px 3px rgba(106,115,125,0.3);
       border: 1px #e1e4e8 solid!important;
 
+}
+
+.OptionsBar {
+  width: 100%;
 }

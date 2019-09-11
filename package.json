@@ -2,9 +2,12 @@
   "name": "dpx",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/dooglz/dpx",
+  "homepage": "https://dooglz.github.io/dpx/",
   "dependencies": {
+    "axios": "^0.19.0",
     "gh-pages": "^2.1.1",
+    "js-cookie": "^2.2.1",
+    "qs": "^6.8.0",
     "react": "^16.9.0",
     "react-dnd": "^9.3.4",
     "react-dnd-html5-backend": "^9.3.4",
