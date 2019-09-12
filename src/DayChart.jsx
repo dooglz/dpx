@@ -2,16 +2,11 @@ import React from 'react'
 import Event from './Event'
 import { useDrop } from 'react-dnd'
 import { DropTarget } from 'react-dnd'
+import { Sync } from './data'
 
 //import TimeSlot from './WeekBoard';
 
-let Events = [];
-function getEventAtThisTime(di, ti){
-  return Events.find((v,i)=>v.startDay=== di && v.startTime=== ti );
-}
-function getEventsOverlappingThisTime(di, ti){
-  return Events.find((v,i)=>v.startDay=== di && (v.startTime <= ti && v.startTime + v.duration >= ti ) );
-}
+
 const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 const getSegmentedTime = (division, i) => {
   const dd = new Date(0);
@@ -22,6 +17,12 @@ const getSegmentedTime = (division, i) => {
 }
 
 class TimeSlot extends React.Component {
+   getEventAtThisTime(di, ti){
+    return this.props.events.find((v,i)=>v.allocated && v.startDay=== di && v.startTime=== ti );
+  }
+   getEventsOverlappingThisTime(di, ti){
+    return this.props.events.find((v,i)=>v.startDay=== di && (v.startTime <= ti && v.startTime + v.duration >= ti ) );
+  }
   render() {
     // These props are injected by React DnD,
     // as defined by your `collect` function above:
@@ -53,7 +54,7 @@ class TimeSlot extends React.Component {
 
   }
   RenderEvent(di, ti) {
-    const e = getEventAtThisTime(di,ti);
+    const e = this.getEventAtThisTime(di,ti);
     return e ? <Event eventData={e} /> : null
   }
 }
@@ -82,7 +83,9 @@ const chessSquareTarget = {
     const item = monitor.getItem()
     console.log("Hello drop", this, item, props);
     item.eventData.startDay = props.di;
-    item.eventData.startTime = props.ti;
+    item.eventData.startTime = props.ti
+    item.eventData.allocated = true;
+    Sync();
     // You can do something with it
     // ChessActions.movePiece(item.fromPosition, props.position)
 
@@ -95,25 +98,25 @@ const chessSquareTarget = {
 
 let DTTS = DropTarget('toy', chessSquareTarget, collect)(TimeSlot)
 
-const genTimeslots = (di, amount) => {
-  const ts = []
-  const hgt = Math.floor(100.0 / amount);
-
-  for (let i = 0; i < amount; i++) {
-    ts.push(<DTTS di={di} ti={i} hgt={hgt} key={i} st={getSegmentedTime(amount, i)} />)
-  }
-  return ts;
-}
-
 
 
 
 class DayChart extends React.Component {
+  genTimeslots = (di, amount) => {
+    const ts = []
+    const hgt = Math.floor(100.0 / amount);
+  
+    for (let i = 0; i < amount; i++) {
+      ts.push(<DTTS events={this.props.events} di={di} ti={i} hgt={hgt} key={i} st={getSegmentedTime(amount, i)} />)
+    }
+    return ts;
+  }
+  
   render() {
     return (
       <div className="DayChart">
         <div className="DayHeadder">{dayNames[this.props.dayindex]}</div>
-        <div className="DayTimeSlots">{genTimeslots(this.props.dayindex, this.props.timeslices)}</div>
+        <div className="DayTimeSlots">{this.genTimeslots(this.props.dayindex, this.props.timeslices)}</div>
       </div>
     )
   }

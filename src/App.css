@@ -21,15 +21,7 @@
   color: #61dafb80;
 }
 
-.backlog {
-  float: left;
-  background-color: burlywood;
-  height: 80vh;
-  width: 30%;
-  margin: auto;
-  min-height: 200px;
-  overflow-y:auto;
-}
+
 
 .WeekBoard {
  width: 98%;
@@ -75,6 +67,7 @@
   text-align: left;
   position:absolute;
 }
+
 .Event{
   height:90%;
   width:95%;
@@ -84,17 +77,38 @@
   box-sizing: border-box;
   float: none;
 
-  
-      -webkit-border-radius: 8px;
-      -moz-border-radius: 8px;
-      border-radius: 8px;
-      padding: 5px 10px;
-      text-align: left;
-      box-shadow: 0 1px 3px rgba(106,115,125,0.3);
-      border: 1px #e1e4e8 solid!important;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  padding: 5px 10px;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(106,115,125,0.3);
+  border: 1px #e1e4e8 solid!important;
+}
 
+.backlogList > .Event {
+  height:20%;
 }
 
 .OptionsBar {
   width: 100%;
+}
+
+.backlog {
+  float: left;
+  background-color: burlywood;
+  height: 80vh;
+  width: 30%;
+  margin: auto;
+  min-height: 200px;
+  overflow-y:auto;
+}
+
+.backlogHeadder {
+  height: 5%;
+}
+.backlogList {
+  background-color: blueviolet;
+  width: 100%;
+  height: 95%
 }

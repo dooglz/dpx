@@ -19,7 +19,7 @@ class WeekBoard extends React.Component {
         console.log("WB Render", this.props);
         const items = []
         for (let i = 0; i < this.props.days; i++) {
-            items.push(<DayChart dayindex={i} key={i} timeslices={this.props.timeslices} />)
+            items.push(<DayChart events={this.props.events} dayindex={i} key={i} timeslices={this.props.timeslices} />)
         }
         const width=(this.props.small? "68%":"98%");
         return (

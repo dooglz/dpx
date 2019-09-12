@@ -24,7 +24,7 @@ class Event extends React.Component {
     render() {
         const { isDragging, connectDragSource } = this.props;
         return connectDragSource(
-            <div className="Event" style={this.sty} >Hello</div>
+            <div className="Event" style={this.sty} >{this.props.eventData.text}</div>
         )
     }
 
