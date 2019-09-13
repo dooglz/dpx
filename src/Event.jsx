@@ -1,6 +1,6 @@
 import React from 'react'
-import { DragSource, useDrag } from 'react-dnd'
-
+import { DragSource } from 'react-dnd'
+import { DeleteEvent } from './data'
 
 
 const Types = {
@@ -22,15 +22,19 @@ const sourceCollect = (connect, monitor) => {
 class Event extends React.Component {
     sty = { background: "red" };
     render() {
-        const { isDragging, connectDragSource } = this.props;
+        const { /*isDragging,*/ connectDragSource } = this.props;
+        let deleteBtn;
+        if (!this.props.eventData.allocated) {
+            deleteBtn = (<div className="EventDeletebutton"><button type="button" onClick={() => { DeleteEvent(this.props.eventData); }}>X</button></div>);
+        }
         return connectDragSource(
-            <div className="Event" style={this.sty} >{this.props.eventData.text}</div>
+            <div className="Event" style={this.sty} >
+                <div className="EventTitle">{this.props.eventData.text}</div>
+                {deleteBtn}
+            </div>
         )
     }
 
 }
 
-
-//export default Event
-//export default Event
 export default DragSource(Types.ITEM, sourceSpec, sourceCollect)(Event)

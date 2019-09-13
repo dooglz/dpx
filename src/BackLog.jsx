@@ -1,6 +1,6 @@
 import React from 'react'
 import { DropTarget } from 'react-dnd'
-import { NewEvent, GetEvents } from './data'
+import { NewEvent } from './data'
 import Event from './Event'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -8,17 +8,16 @@ import { Sync } from './data'
 
 class BacklogList extends React.Component {
     RenderEvent() {
-        console.info("RenderEvent", this.props)
         if (this.props.events) {
             let a = this.props.events.filter((V) => !V.allocated);
-            console.info("RenderEvent2", a)
             return a.map((V) => (<Event eventData={V} />))
         }
     }
     render() {
         const { isOver, canDrop, connectDropTarget } = this.props
+        const className = "backlogList" + (!isOver && canDrop ? " candrop" : "") + (isOver && canDrop ? " drophover" : "")
         console.info("BacklogList render", this.props)
-        return connectDropTarget(<div className="backlogList" >{this.RenderEvent()}</div>)
+        return connectDropTarget(<div className={className} >{this.RenderEvent()}</div>)
     }
 }
 
@@ -26,10 +25,7 @@ class BacklogList extends React.Component {
 
 function collect(connect, monitor) {
     return {
-        // Call this function inside render()
-        // to let React DnD handle the drag events:
         connectDropTarget: connect.dropTarget(),
-        // You can ask the monitor about the current drag state:
         isOver: monitor.isOver(),
         isOverCurrent: monitor.isOver({ shallow: true }),
         canDrop: monitor.canDrop(),

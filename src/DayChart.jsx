@@ -1,102 +1,63 @@
 import React from 'react'
 import Event from './Event'
-import { useDrop } from 'react-dnd'
 import { DropTarget } from 'react-dnd'
 import { Sync } from './data'
-
+import EventLogic from './EventLogic'
 //import TimeSlot from './WeekBoard';
 
-
-const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-const getSegmentedTime = (division, i) => {
-  const dd = new Date(0);
-  dd.setHours(9);
-  let d2 = new Date(dd);
-  d2.setHours(17);
-  return new Date(dd.getTime() + (i * ((d2 - dd)) / division))
-}
-
 class TimeSlot extends React.Component {
-   getEventAtThisTime(di, ti){
-    return this.props.events.find((v,i)=>v.allocated && v.startDay=== di && v.startTime=== ti );
-  }
-   getEventsOverlappingThisTime(di, ti){
-    return this.props.events.find((v,i)=>v.startDay=== di && (v.startTime <= ti && v.startTime + v.duration >= ti ) );
-  }
-  render() {
-    // These props are injected by React DnD,
-    // as defined by your `collect` function above:
-    const { isOver, canDrop, connectDropTarget } = this.props
 
-    const sty = { height: this.props.hgt + '%', minHeight: this.props.hgt + '%' }
-    const timeLabel = this.props.st.toISOString().slice(11, 16);
+  render() {
+    const { isOver, canDrop, connectDropTarget } = this.props
+    const sty = { height: this.props.hgt + '%' }
     let aa = this.RenderEvent(this.props.di, this.props.ti);
-    if (!aa) {
+    if (!aa && this.props.showTimeInSlots) {
       aa = (
         <div className="TimeSlotLabel">
-          {this.props.di} - {this.props.ti} - {timeLabel}
+          {this.props.di} - {this.props.ti} - {this.props.startDate.toISOString().slice(11, 16)}
         </div>
       )
     }
-    /*return (
-      <div className="TimeSlot" style={sty} key={this.props.ti}>
-        {aa}
-      </div>)*/
-
+    const className = "TimeSlot" + (!isOver && canDrop ? " candrop" : "") + (isOver && canDrop ? " drophover" : "")
     return connectDropTarget(
-      <div className="TimeSlot" style={sty} key={this.props.ti}>
-        {isOver && canDrop && "G"}
-        {!isOver && canDrop && "R"}
-        {isOver && !canDrop && "B"}
+      <div className={className} style={sty} key={this.props.ti}>
         {aa}
       </div>,
     )
 
   }
   RenderEvent(di, ti) {
-    const e = this.getEventAtThisTime(di,ti);
+    const e = EventLogic.getEventForMe(this.props.startDate, this.props.events);
     return e ? <Event eventData={e} /> : null
   }
 }
 
-function collect(connect, monitor) {
+function TimeSlotDropCollect(connect, monitor) {
   return {
-    // Call this function inside render()
-    // to let React DnD handle the drag events:
     connectDropTarget: connect.dropTarget(),
-    // You can ask the monitor about the current drag state:
     isOver: monitor.isOver(),
     isOverCurrent: monitor.isOver({ shallow: true }),
     canDrop: monitor.canDrop(),
     itemType: monitor.getItemType(),
   }
 }
-const chessSquareTarget = {
+const TimeSlotDropHandle = {
   drop(props, monitor, component) {
     if (monitor.didDrop()) {
-      // If you want, you can check whether some nested
-      // target already handled drop
       return
     }
-
     // Obtain the dragged item
     const item = monitor.getItem()
     console.log("Hello drop", this, item, props);
-    item.eventData.startDay = props.di;
-    item.eventData.startTime = props.ti
+    //item.eventData.startDay = props.di;
+    item.eventData.startTime = props.startDate;
     item.eventData.allocated = true;
     Sync();
-    // You can do something with it
-    // ChessActions.movePiece(item.fromPosition, props.position)
-
-    // You can also do nothing and return a drop result,
-    // which will be available as monitor.getDropResult()
-    // in the drag source's endDrag() method
     return { moved: true }
   }
 }
 
-let DTTS = DropTarget('toy', chessSquareTarget, collect)(TimeSlot)
+let TimeSlotDropTarget = DropTarget('toy', TimeSlotDropHandle, TimeSlotDropCollect)(TimeSlot)
 
 
 
@@ -105,17 +66,18 @@ class DayChart extends React.Component {
   genTimeslots = (di, amount) => {
     const ts = []
     const hgt = Math.floor(100.0 / amount);
-  
     for (let i = 0; i < amount; i++) {
-      ts.push(<DTTS events={this.props.events} di={di} ti={i} hgt={hgt} key={i} st={getSegmentedTime(amount, i)} />)
+      let tsStartDate = EventLogic.getSlotStartTime(this.props.date, i, amount);
+      //let tdEndDate = EventLogic.getSlotEndTime(this.props.date,i,amount);
+      ts.push(<TimeSlotDropTarget events={this.props.events} startDate={tsStartDate} di={di} ti={i} hgt={hgt} key={i} showTimeInSlots={this.props.showTimeInSlots} />)
     }
     return ts;
   }
-  
   render() {
+    let DYcn = "DayHeadder" + (EventLogic.isThisCurrentDay(this.props.date) ? " today" : "");
     return (
       <div className="DayChart">
-        <div className="DayHeadder">{dayNames[this.props.dayindex]}</div>
+        <div className={DYcn}>{EventLogic.getDayLabel(this.props.date)}</div>
         <div className="DayTimeSlots">{this.genTimeslots(this.props.dayindex, this.props.timeslices)}</div>
       </div>
     )

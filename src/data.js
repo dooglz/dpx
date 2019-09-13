@@ -12,7 +12,10 @@ function onUpdate(a) {
 function GetEvents() {
     return Data.events;
 }
-
+function DeleteEvent(e) {
+    Data.events = Data.events.filter(item => item !== e);
+    Sync();
+}
 function NewEvent() {
     Data.events.push({
         text: "New Event",
@@ -28,31 +31,31 @@ function NewEvent() {
 let _lastServerdata = "";
 function Sync() {
     //Nothing from server yet
-    if (_lastServerdata == "") {
+    if (_lastServerdata === "") {
         GetFromServer().then(function (response) {
             Data = JSON.parse(response.data.data);
-            if(!Data.events){
+            if (!Data.events) {
                 Data.events = [];
             }
             _lastServerdata = response.data.data;
             console.info("Got Data from server", Data);
             _updateCB();
         }).catch(function (error) {
-            if (error.response && error.response.status == 404) {
+            if (error.response && error.response.status === 404) {
                 //Doesn't exist yet
                 console.info("Creating new user on Server");
                 let newUser = { name: "Sam", events: [] };
-                SendToServer(newUser).then(() => {console.info("new user Created"); Sync(); }, (a) => { console.log(3, a) })
-               
+                SendToServer(newUser).then(() => { console.info("new user Created"); Sync(); }, (a) => { console.log(3, a) })
+
             } else {
-                console.error(2, JSON.stringify(error),error);
+                console.error(2, JSON.stringify(error), error);
             }
         });
     } else {
         //has events changed?  
         if (JSON.stringify(Data) !== _lastServerdata) {
-            console.info("Updating Server",Data);
-            SendToServer(Data).then(() => {console.info("Server Updated"); }, (a) => { console.log(5, a) })
+            console.info("Updating Server", Data);
+            SendToServer(Data).then(() => { console.info("Server Updated"); }, (a) => { console.log(5, a) })
             _updateCB();
         }
     }
@@ -80,12 +83,4 @@ function SendToServer(d) {
 }
 
 
-function Login() {
-
-}
-
-function Logout() {
-
-}
-
-export { Sync, NewEvent, GetEvents, onUpdate }
+export { Sync, NewEvent, GetEvents, onUpdate, DeleteEvent }

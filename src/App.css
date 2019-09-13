@@ -36,7 +36,7 @@
 .DayChart {
   box-sizing: border-box;
   height: 100%;
-  width: 20%;
+  width: 18%;
   border: 1px solid black;
   float: left;
 }
@@ -52,16 +52,24 @@
   
 }
 
-.TimeSlot{
+.TimeSlot{  
   box-sizing: border-box;
   float: none;
   border: 1px solid black;
   display: flex;
+  min-height: 36px;
 }
 
-.TimeSlot:nth-child(even) {background: rgb(255, 255, 255)}
 
+
+.TimeSlot:nth-child(even) {background: rgb(255, 255, 255)}
 .TimeSlot:nth-child(odd) {background: rgb(216, 216, 216)}
+.TimeSlot.candrop:nth-child(even) {
+   background-color: rgb(159, 255, 191) !important;
+}
+.TimeSlot.candrop:nth-child(odd) {
+   background-color: rgb(146, 212, 162) !important;
+}
 
 .TimeSlotLabel{
   text-align: left;
@@ -111,4 +119,37 @@
   background-color: blueviolet;
   width: 100%;
   height: 95%
+}
+.backlogList.candrop:nth-child(even) {
+  background-color: rgb(159, 255, 191) !important;
+}
+
+.TimeBar{
+  box-sizing: border-box;
+  height: 100%;
+  width: 10%;
+  border: 1px solid black;
+  float: left;
+}
+.TimeBarslots{
+  height: 95%;
+}
+.TimeBarSlot{
+  box-sizing: border-box;
+  float: none;
+  border: 1px solid black;
+  display: flex;
+  min-height: 36px;
+}
+
+.EventDeletebutton{
+  float: right;
+
+}
+
+.EventTitle{
+  float: left;
+}
+.today{
+  font-weight: bold;
 }

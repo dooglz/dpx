@@ -3,21 +3,21 @@ import WeekBoard from './WeekBoard';
 import Options from './Options';
 import Backlog from './BackLog';
 import './App.css';
-import {Sync,onUpdate, GetEvents} from './data';
+import { Sync, onUpdate, GetEvents } from './data';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    //this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
-    // this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
-    this.state = { timeslices: 8, days: 5 };
+    this.state = { timeslices: 32, days: 5 };
     this.setGlobalState = this.setGlobalState.bind(this);
-    this.state.events =[];
-    onUpdate(()=>{console.log(GetEvents(),this.state);this.setGlobalState("events",GetEvents())})
+    this.state.events = [];
+    this.state.showbacklog = true;
+    this.state.showTimeInSlots = false;
+    onUpdate(() => { this.setGlobalState("events", GetEvents()) })
     Sync();
   }
   setGlobalState(prop, val) {
-    let aa= {}
+    let aa = {}
     aa[prop] = val;
     this.setState(aa);
   }
@@ -26,10 +26,16 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header"></header>
         {this.state.showbacklog &&
-          <Backlog events={this.state.events}/>
+          <Backlog events={this.state.events} />
         }
-        <WeekBoard timeslices={this.state.timeslices} days={this.state.days} small={this.state.showbacklog} events={this.state.events}/>
-        <Options  setGlobalState={this.setGlobalState} />
+        <WeekBoard
+          timeslices={this.state.timeslices}
+          days={this.state.days}
+          small={this.state.showbacklog}
+          events={this.state.events}
+          showTimeInSlots={this.state.showTimeInSlots}
+        />
+        <Options setGlobalState={this.setGlobalState} bl={this.state.showbacklog} />
       </div>
     );
   }
