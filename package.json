@@ -8,7 +8,7 @@
     "gh-pages": "^2.1.1",
     "js-cookie": "^2.2.1",
     "moment": "^2.24.0",
-    "qs": "^6.8.0",
+    "qs": "^6.8.3",
     "react": "^16.9.0",
     "react-dnd": "^9.3.4",
     "react-dnd-html5-backend": "^9.3.4",
